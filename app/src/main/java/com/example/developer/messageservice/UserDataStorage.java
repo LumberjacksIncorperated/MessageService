@@ -31,6 +31,6 @@ public class UserDataStorage {
 
     public void setUserDataStringForKey(String key, String userDataString) {
         editor.putString(key, userDataString);
-        editor.commit();
+        editor.apply();
     }
 }

@@ -12,6 +12,7 @@ package com.example.developer.messageservice;
 //--------------------------------------------------------
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +28,7 @@ import java.util.Map;
 
 public class RemoteServerAPI {
 
-    private static final String BASE_API_URL = "http://192.168.0.146/messageservice/";
+    private static final String BASE_API_URL = "http://165.227.25.45/";
 
     private final Context androidApplicationContext;
 
@@ -124,12 +125,17 @@ public class RemoteServerAPI {
     private String currentSavedSessionKey() {
         UserDataStorage userDataStorage = UserDataStorage.userDataStorageWithContext(androidApplicationContext);
         String currentSavedSessionKey = userDataStorage.getUserDataStringWithKey(KEY_FOR_SAVED_SESSION_KEY);
+        //SharedPreferences prefs = androidApplicationContext.getSharedPreferences("com.example.developer.messageservice", Context.MODE_PRIVATE);
+        //String currentSavedSessionKey = prefs.getString("SESSION", null);
         return currentSavedSessionKey;
     }
     private void extractSessionKeyFromResponseAndSaveAsCurrentSessionKey(RemoteServerAPIResponse apiResponse) {
         UserDataStorage userDataStorage = UserDataStorage.userDataStorageWithContext(androidApplicationContext);
         String sessionKeyToSave = apiResponse.responseAsString();
         userDataStorage.setUserDataStringForKey(sessionKeyToSave, KEY_FOR_SAVED_SESSION_KEY);
+        //SharedPreferences prefs = androidApplicationContext.getSharedPreferences("com.example.developer.messageservice", Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = prefs.edit();
+        //editor.putString("SESSION", sessionKeyToSave);
     }
 
     //----------------------------------------------------------------------------------
@@ -137,13 +143,11 @@ public class RemoteServerAPI {
     //----------------------------------------------------------------------------------
     private static final String KEY_FOR_SESSION_KEY_PARAMETER = "session_key";
 
-    private static final String REQUEST_URL_FOR_SENDING_MESSAGE_TO_SERVER = BASE_API_URL+"send_message.php";
-    private static final String KEY_FOR_MESSAGE_PARAMETER = "message";
-    private static final String KEY_FOR_DESTINATION_USERNAME_PARAMETER = "destination_username";
+    private static final String REQUEST_URL_FOR_SENDING_MESSAGE_TO_SERVER = BASE_API_URL+"send_todo.php";
+    private static final String KEY_FOR_MESSAGE_PARAMETER = "todoText";
     public void sendMessageToRemoteServerWithDestinationUsernameAndMessageToSendAndAPIDelegate(String destinationUsername, String messageToSend, RemoteServerAPIDelegate apiDelegate) {
         HashMap parametersInRequest = new HashMap<String, String>();
         parametersInRequest.put(KEY_FOR_MESSAGE_PARAMETER, messageToSend);
-        parametersInRequest.put(KEY_FOR_DESTINATION_USERNAME_PARAMETER, destinationUsername);
         parametersInRequest.put(KEY_FOR_SESSION_KEY_PARAMETER, this.currentSavedSessionKey());
         makeAsyncronousHTTPPOSTRequestFromURLWithParameterToValueMappingAndAPIDelegate(REQUEST_URL_FOR_SENDING_MESSAGE_TO_SERVER, parametersInRequest, apiDelegate);
     }
@@ -181,14 +185,12 @@ public class RemoteServerAPI {
     }
 
 
-    private static final String REQUEST_URL_FOR_RECEIVING_MY_MESSAGES = BASE_API_URL+"get_messages.php";
+    private static final String REQUEST_URL_FOR_RECEIVING_MY_MESSAGES = BASE_API_URL+"get_todo.php";
     public void receiveMyMessagesWithAPIDelegate(RemoteServerAPIDelegate apiDelegate) {
         HashMap parametersInRequest = new HashMap<String, String>();
         parametersInRequest.put(KEY_FOR_SESSION_KEY_PARAMETER, this.currentSavedSessionKey());
         makeAsyncronousHTTPPOSTRequestFromURLWithParameterToValueMappingAndAPIDelegate(REQUEST_URL_FOR_RECEIVING_MY_MESSAGES, parametersInRequest, apiDelegate);
     }
-
-
 
     public static RemoteServerAPI remoteServerAPIWithContext(Context context) {
         return new RemoteServerAPI(context);

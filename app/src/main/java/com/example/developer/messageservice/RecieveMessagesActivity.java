@@ -49,7 +49,7 @@ public class RecieveMessagesActivity extends LoginRequiredActivity {
         int i = -1;
         for(final ReceivedMessage receivedMessage : receivedMessages){
             i++;
-            String productDescription = receivedMessage.getSentFromUsername();
+            String productDescription = String.valueOf(i);
 
 //Create the tablerows
             tr_head[i] = new TableRow(this);

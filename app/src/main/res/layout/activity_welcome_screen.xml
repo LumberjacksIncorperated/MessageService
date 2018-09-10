@@ -15,14 +15,14 @@
         android:layout_marginRight="88dp"
         android:layout_marginStart="95dp"
         android:layout_marginTop="158dp"
-        android:text="Hello! Welcome To The Message Service Application"
+        android:text="Welcome To Tagnostic"
         android:textAlignment="center"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Hello! Welcome To The Message Service Application" />
+        tools:text="Welcome To Tagnostic" />
 
     <TextView
         android:id="@+id/textView2"

@@ -12,11 +12,13 @@ import android.content.SharedPreferences;
 
 public class UserDataStorage {
 
-    private final Context context;
-    private final static String SHARED_PREFERENCES_USERSPACE_KEY = "MyAppPreferences";
+    private final SharedPreferences.Editor editor;
+    private final SharedPreferences preferences;
 
+    private final static String SHARED_PREFERENCES_USERSPACE_KEY = "MyAppPreferences";
     private UserDataStorage(Context context) {
-        this.context = context;
+        this.preferences = context.getSharedPreferences(SHARED_PREFERENCES_USERSPACE_KEY, 0);
+        this.editor = preferences.edit();
     }
 
     public static UserDataStorage userDataStorageWithContext(Context context) {
@@ -24,13 +26,10 @@ public class UserDataStorage {
     }
 
     public String getUserDataStringWithKey(String key) {
-        SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES_USERSPACE_KEY, Context.MODE_PRIVATE);
         return preferences.getString(key, null);
     }
 
-    public void setUserDataStringForKey(String userDataString, String key) {
-        SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES_USERSPACE_KEY, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+    public void setUserDataStringForKey(String key, String userDataString) {
         editor.putString(key, userDataString);
         editor.commit();
     }

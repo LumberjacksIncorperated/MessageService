@@ -25,4 +25,21 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // App dependencies
+    compile 'com.android.support:support-annotations:' + rootProject.supportLibVersion;
+    compile 'com.google.guava:guava:18.0'
+    // Testing-only dependencies
+    // Force usage of support annotations in the test app, since it is internally used by the runner module.
+    androidTestCompile 'com.android.support:support-annotations:' + rootProject.supportLibVersion;
+    androidTestCompile 'com.android.support.test:runner:' + rootProject.runnerVersion;
+    androidTestCompile 'com.android.support.test:rules:' + rootProject.rulesVersion;
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:' + rootProject.espressoVersion;
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:$espressoVersion"
+    // ... more entries
+    testCompile 'junit:junit:4.12'
+    // required if you want to use Mockito for unit tests
+    testCompile 'org.mockito:mockito-core:2.7.22'
+    // required if you want to use Mockito for Android tests
+    androidTestCompile 'org.mockito:mockito-android:2.7.22'
 }

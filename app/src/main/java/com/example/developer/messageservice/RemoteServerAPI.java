@@ -123,19 +123,20 @@ public class RemoteServerAPI {
 
     static private final String KEY_FOR_SAVED_SESSION_KEY = "saved_session_key";
     private String currentSavedSessionKey() {
-        UserDataStorage userDataStorage = UserDataStorage.userDataStorageWithContext(androidApplicationContext);
-        String currentSavedSessionKey = userDataStorage.getUserDataStringWithKey(KEY_FOR_SAVED_SESSION_KEY);
-        //SharedPreferences prefs = androidApplicationContext.getSharedPreferences("com.example.developer.messageservice", Context.MODE_PRIVATE);
-        //String currentSavedSessionKey = prefs.getString("SESSION", null);
+        //UserDataStorage userDataStorage = UserDataStorage.userDataStorageWithContext(androidApplicationContext);
+        //String currentSavedSessionKey = userDataStorage.getUserDataStringWithKey(KEY_FOR_SAVED_SESSION_KEY);
+        SharedPreferences prefs = androidApplicationContext.getSharedPreferences("com.example.developer.messageservice", Context.MODE_PRIVATE);
+        String currentSavedSessionKey = prefs.getString("SESSION", null);
         return currentSavedSessionKey;
     }
     private void extractSessionKeyFromResponseAndSaveAsCurrentSessionKey(RemoteServerAPIResponse apiResponse) {
-        UserDataStorage userDataStorage = UserDataStorage.userDataStorageWithContext(androidApplicationContext);
+        //UserDataStorage userDataStorage = UserDataStorage.userDataStorageWithContext(androidApplicationContext);
         String sessionKeyToSave = apiResponse.responseAsString();
-        userDataStorage.setUserDataStringForKey(sessionKeyToSave, KEY_FOR_SAVED_SESSION_KEY);
-        //SharedPreferences prefs = androidApplicationContext.getSharedPreferences("com.example.developer.messageservice", Context.MODE_PRIVATE);
-        //SharedPreferences.Editor editor = prefs.edit();
-        //editor.putString("SESSION", sessionKeyToSave);
+        //userDataStorage.setUserDataStringForKey(sessionKeyToSave, KEY_FOR_SAVED_SESSION_KEY);
+        SharedPreferences prefs = androidApplicationContext.getSharedPreferences("com.example.developer.messageservice", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("SESSION", sessionKeyToSave);
+        editor.commit();
     }
 
     //----------------------------------------------------------------------------------
